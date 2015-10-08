@@ -3,7 +3,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -12,4 +12,15 @@ repositories {
 dependencies {
     compile 'com.rabbitmq:amqp-client:3.5.+'
     testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+task clientJar(type: Jar){
+    manifest {
+        attributes 'Main-Class': 'ChatClient'
+    }
+    baseName = 'chat-client'
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
 }
